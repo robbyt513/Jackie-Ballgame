@@ -1,4 +1,10 @@
 //jackie game
+//const container = document.getElementById("container")
+//container.innerHTML = "<button>Swing!</button>"
+
+console.log("PLAY BALL!!! - Blue")
+
+//logic
 
 class Game {
     constructor(homeTeamName, awayTeamName) {
@@ -14,6 +20,34 @@ class Game {
     }
 }
 
+const isUp = {
+    homeTeam: false,
+    awayTeam: true
+}
+
+const pitch = {
+    ball: 0,
+    strike: 0,
+    flyout: 0,
+    groundout: 1,
+    single: 1,
+    double: 2,
+    triple: 3,
+    homerun: 4
+  }
+
+const bases = {
+    1: false,
+    2: false,
+    3: false
+}
+
+function clearBases() {
+    bases[1] = false
+    bases[2] = false
+    bases[3] = false
+}
+
 const gameState = {
     inning: 1,
     homeScore: 0,
@@ -21,31 +55,6 @@ const gameState = {
     outs: 0,
     strikes: 0,
     balls: 0
-}
-
-const pitch = {
-  BALL: 0,
-  STRIKE: 0,
-  SINGLE: 1,
-  DOUBLE: 2,
-  TRIPLE: 3,
-  HOMERUN: 4,
-  GROUNDOUT: 5,
-  FLYOUT: 6
-}
-
-const bases = {
-    firstBase: false,
-    secondBase: false,
-    thirdBase: false
-}
-
-function clearBases() {
-    if(pitch.HOMERUN || inningOver()) {
-        bases.firstBase = false
-        bases.secondBase = false
-        bases.thirdBase = false
-    }
 }
 
 function newAtBat() {
@@ -57,94 +66,107 @@ function inningOver() {
     gameState.balls = 0
     gameState.strikes = 0
     gameState.outs = 0
-    clearBases()
-}
-
-function hit() {
-    let outcome = swing()
-    if(outcome === "SINGLE") {
-        bases.firstBase = true
-    } else if (outcome === "DOUBLE") {
-        bases.secondBase = true
-    } else if (outcome === "Triple") {
-        bases.thirdBase = true
-    }
-}
-
-function advanceRunners() {
-    let outcome = swing()
-    if(outcome === "SINGLE" && bases.firstBase === true) {
-        bases.secondBase = true
-    } 
-    if(outcome === "SINGLE" && bases.secondBase === true) {
-        bases.thirdBase = true
-    } 
-    if(outcome === "DOUBLE" && bases.firstBase === true) {
-        bases.firstBase = false;
-        bases.secondBase = true;
-        bases.thirdBase = true;
+    if(isUp.homeTeam === true) {
+        isUp.homeTeam = false
+        isUp.awayTeam = true
+        gameState.inning++
+    } else {
+        isUp.homeTeam = true
+        isUp.awayTeam = false
     }
 }
 
 function swing() {
     let keys = Object.keys(pitch)
     let prop = keys[Math.floor(Math.random() * keys.length)]
-    console.log(prop);
-    if (prop === "BALL") {
+    if (prop === "ball") {
+        console.log("ball")
         gameState.balls++
-        console.log(gameState.balls)
-        if(gameState.balls === 4) {
-            console.log("walk")
-            bases.firstBase = true
+        totalBases = 0
+            if(gameState.balls === 4) {
+                console.log("walk")
+                newAtBat()
+                totalBases = 1
+            }
+        } else if (prop === "strike") {
+            console.log("strike")
+            gameState.strikes++
+            totalBases = 0
+            if(gameState.strikes === 3) {
+                console.log("strike out")
+                gameState.outs++
+                newAtBat()
+                totalBases = 0
+            }
+        } else if (prop === "single") {
+            console.log("single")
             newAtBat()
-        }
-    } else if (prop === "STRIKE") {
-        gameState.strikes++
-        console.log(gameState.strikes)
-        if(gameState.strikes === 3) {
-            console.log("strike out")
+            totalBases = 1
+        } else if (prop === "double") {
+            console.log("double")
+            newAtBat()
+            totalBases = 2
+        } else if (prop === "triple") {
+            console.log("triple")
+            newAtBat()
+            totalBases = 3
+        } else if (prop === "homerun") {
+            console.log("home run")
+            newAtBat()
+            totalBases = 4
+        } else if (prop === "groundout") {
+            console.log("groundout")
             gameState.outs++
             newAtBat()
-            console.log("switch sides!")
+            totalBases = 0
+        }  else if (prop === "flyout") {
+            console.log("flyout")
+            gameState.outs++
+            newAtBat()
+            totalBases = 0
         }
-    } else if (prop === "SINGLE") {
-        console.log("base hit")
-        bases.firstBase = true
-        newAtBat()
-    } else if (prop === "DOUBLE") {
-        console.log("double")
-        bases.secondBase = true
-        newAtBat()
-    } else if (prop === "TRIPLE") {
-        console.log("triple")
-        bases.thirdBase = true
-        newAtBat()
-    } else if (prop === "HOMERUN") {
-        if (this.homeTeam === isUP) {
-            gameState.homeScore++
-        } else {
-            gameState.awayScore++
-        }
+    if(gameState.outs === 3) {
+        console.log("switch sides!")
+        totalBases = 0
+        inningOver()
         clearBases()
-    } else if (prop === "GROUNDOUT") {
-        gameState.outs++
-        console.log(gameState.outs)
-        if(gameState.outs === 3) {
-            inningOver()
-            console.log("switch sides!")
-        }
-    }  else if (prop === "FLYOUT") {
-        gameState.outs++
-        console.log(gameState.outs)
-        if(gameState.outs === 3) {
-            clearBases()
-            console.log("switch sides!")
-        }
     }
-    return prop
+    return totalBases
 }
-console.log(swing())
+
+function baseRunner(totalBases) {
+    if(totalBases === 0) {
+      return totalBases
+    }
+      for(let i=3; i > 0; i--) {
+          if(bases[i]) {
+              newBase = totalBases + i
+              if(newBase > 3) {
+                  if(isUp.homeTeam === true) {
+                      gameState.homeScore++
+                  } else {
+                      gameState.awayScore++
+                  }
+              } else {
+                  bases[newBase] = true
+              }
+              bases[i] = false
+          } 
+      }
+        if(totalBases < 4) {
+              bases[totalBases] = true
+          } else {
+              if(isUp.homeTeam === true) {
+                  gameState.homeScore++
+              } else {
+                  gameState.awayScore++
+              }  
+          }
+    return totalBases
+  }
 
 function playGame() {
-    addEventListener("click", )
+    console.log(gameState)
+   return baseRunner(swing())
 }
+
