@@ -1,13 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src= "app.js"></script>
 </head>
 <body>
-    <button id="button" onclick="swing()">Swing</button>
+<div class="bg-image"></div>
+<div id="stadium">
+    <div id="field" class="mowed-grass"></div>
+    <div id="in-field"></div>
+    <div id="in-field-grass" class="mowed-grass"></div>
+    <div id="batting-circle"></div>
+    <div id="first-base" class="base"></div>
+    <div id="second-base" class="base"></div>
+    <div id="third-base" class="base"></div>
+    <div id="home-plate"></div>
+    <div id="base-lines"></div>
+    <div id="pitchers-mound"></div>
+    <div id="pitchers-plate"></div>
+    <div id="first-circle" class="half-circle"></div>
+    <div id="second-circle" class="half-circle"></div>
+    <div id="third-circle" class="half-circle"></div>
+    <div id="batters-box-right" class="batters-box"></div>
+    <div id="batters-box-left" class="batters-box"></div>
+    <div id="first-base-thing"></div>
+</div>
+
+    <h1>Baseball</h1>
+    <p id="message-el">Play Ball!!</p>
+    <p id="message-el2"></p>
+    <p id="inning">Inning:</p>
+    <p id="outs">Outs:</p>
+    <p id="balls">Balls:</p>
+    <p id="strikes">Strikes:</p>
+    <p id="home-score">Home Score:</p>
+    <p id="away-score">Away Score:</p>
+        <div id="container">
+        </div>
+    <button id="button-home" onclick="playGame()">Home Bat</button>
+    <button id="button-away" onclick="playGame()">Away Bat</button>
+    <script src= "app.js"></script>
 </body>
 </html>
