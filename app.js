@@ -1,4 +1,23 @@
 //jackie game
+//const container = document.getElementById("container")
+//container.innerHTML = "<button>Swing!</button>"
+
+let messageEl = document.getElementById("message-el")
+let messageEl2 = document.getElementById("message-el2")
+let score1 = document.getElementById("home-score")
+let score2 = document.getElementById("away-score")
+let ball1 = document.getElementById("balls")
+let strike1 = document.getElementById("strikes")
+let outs = document.getElementById("outs")
+let inning = document.getElementById("inning")
+let message = ""
+let message2 = ""
+let baseColor1 = document.getElementById("first-base")
+let baseColor2 = document.getElementById("second-base")
+let baseColor3 = document.getElementById("third-base")
+const buttonHome = document.getElementById("button-home")
+const buttonAway = document.getElementById("button-away")
+//logic
 
 class Game {
     constructor(homeTeamName, awayTeamName) {
@@ -14,6 +33,38 @@ class Game {
     }
 }
 
+const isUp = {
+    homeTeam: false,
+    awayTeam: true
+}
+
+const pitch = {
+    ball: 0,
+    ball: 0,
+    strike: 0,
+    strike: 0,
+    flyout: 0,
+    flyout: 0,
+    groundout: 0,
+    groundout: 0,
+    single: 1,
+    double: 2,
+    triple: 3,
+    homerun: 4
+  }
+
+const bases = {
+    1: false,
+    2: false,
+    3: false
+}
+
+function clearBases() {
+    bases[1] = false
+    bases[2] = false
+    bases[3] = false
+}
+
 const gameState = {
     inning: 1,
     homeScore: 0,
@@ -21,31 +72,6 @@ const gameState = {
     outs: 0,
     strikes: 0,
     balls: 0
-}
-
-const pitch = {
-  BALL: 0,
-  STRIKE: 0,
-  SINGLE: 1,
-  DOUBLE: 2,
-  TRIPLE: 3,
-  HOMERUN: 4,
-  GROUNDOUT: 5,
-  FLYOUT: 6
-}
-
-const bases = {
-    firstBase: false,
-    secondBase: false,
-    thirdBase: false
-}
-
-function clearBases() {
-    if(pitch.HOMERUN || inningOver()) {
-        bases.firstBase = false
-        bases.secondBase = false
-        bases.thirdBase = false
-    }
 }
 
 function newAtBat() {
@@ -57,94 +83,157 @@ function inningOver() {
     gameState.balls = 0
     gameState.strikes = 0
     gameState.outs = 0
-    clearBases()
-}
-
-function hit() {
-    let outcome = swing()
-    if(outcome === "SINGLE") {
-        bases.firstBase = true
-    } else if (outcome === "DOUBLE") {
-        bases.secondBase = true
-    } else if (outcome === "Triple") {
-        bases.thirdBase = true
-    }
-}
-
-function advanceRunners() {
-    let outcome = swing()
-    if(outcome === "SINGLE" && bases.firstBase === true) {
-        bases.secondBase = true
-    } 
-    if(outcome === "SINGLE" && bases.secondBase === true) {
-        bases.thirdBase = true
-    } 
-    if(outcome === "DOUBLE" && bases.firstBase === true) {
-        bases.firstBase = false;
-        bases.secondBase = true;
-        bases.thirdBase = true;
+    if(isUp.homeTeam === true) {
+        isUp.homeTeam = false
+        isUp.awayTeam = true
+        gameState.inning++
+    } else {
+        isUp.homeTeam = true
+        isUp.awayTeam = false
     }
 }
 
 function swing() {
     let keys = Object.keys(pitch)
     let prop = keys[Math.floor(Math.random() * keys.length)]
-    console.log(prop);
-    if (prop === "BALL") {
+    if (prop === "ball") {
+        message = "ball"
         gameState.balls++
-        console.log(gameState.balls)
-        if(gameState.balls === 4) {
-            console.log("walk")
-            bases.firstBase = true
+        totalBases = 0
+            if(gameState.balls === 4) {
+                message2 = "walk"
+                newAtBat()
+                totalBases = 1
+            }
+        } else if (prop === "strike") {
+            message = "strike"
+            gameState.strikes++
+            totalBases = 0
+            if(gameState.strikes === 3) {
+                message2 = "strike out"
+                gameState.outs++
+                newAtBat()
+                totalBases = 0
+            }
+        } else if (prop === "single") {
+            message = "single"
             newAtBat()
-        }
-    } else if (prop === "STRIKE") {
-        gameState.strikes++
-        console.log(gameState.strikes)
-        if(gameState.strikes === 3) {
-            console.log("strike out")
+            totalBases = 1
+        } else if (prop === "double") {
+            message = "double"
+            newAtBat()
+            totalBases = 2
+        } else if (prop === "triple") {
+            message = "triple"
+            newAtBat()
+            totalBases = 3
+        } else if (prop === "homerun") {
+            message = "home run"
+            newAtBat()
+            totalBases = 4
+        } else if (prop === "groundout") {
+            message = "groudout"
             gameState.outs++
             newAtBat()
-            console.log("switch sides!")
+            totalBases = 0
+        }  else if (prop === "flyout") {
+            message = "flyout"
+            gameState.outs++
+            newAtBat()
+            totalBases = 0
         }
-    } else if (prop === "SINGLE") {
-        console.log("base hit")
-        bases.firstBase = true
-        newAtBat()
-    } else if (prop === "DOUBLE") {
-        console.log("double")
-        bases.secondBase = true
-        newAtBat()
-    } else if (prop === "TRIPLE") {
-        console.log("triple")
-        bases.thirdBase = true
-        newAtBat()
-    } else if (prop === "HOMERUN") {
-        if (this.homeTeam === isUP) {
-            gameState.homeScore++
-        } else {
-            gameState.awayScore++
-        }
+    if(gameState.outs === 3) {
+        message2 = "switch sides!"
+        totalBases = 0
+        inningOver()
         clearBases()
-    } else if (prop === "GROUNDOUT") {
-        gameState.outs++
-        console.log(gameState.outs)
-        if(gameState.outs === 3) {
-            inningOver()
-            console.log("switch sides!")
-        }
-    }  else if (prop === "FLYOUT") {
-        gameState.outs++
-        console.log(gameState.outs)
-        if(gameState.outs === 3) {
-            clearBases()
-            console.log("switch sides!")
-        }
     }
-    return prop
+    return totalBases
 }
-console.log(swing())
+
+function baseRunner(totalBases) {
+    if(totalBases === 0) {
+      return totalBases
+    }
+      for(let i=3; i > 0; i--) {
+          if(bases[i]) {
+              newBase = totalBases + i
+              if(newBase > 3) {
+                  if(isUp.homeTeam === true) {
+                      gameState.homeScore++
+                  } else {
+                      gameState.awayScore++
+                  }
+              } else {
+                  bases[newBase] = true
+              }
+              bases[i] = false
+          } 
+      }
+        if(totalBases < 4) {
+              bases[totalBases] = true
+          } else {
+              if(isUp.homeTeam === true) {
+                  gameState.homeScore++
+              } else {
+                  gameState.awayScore++
+              }  
+          }
+    return totalBases
+  }
 
 function playGame() {
-    addEventListener("click", )
+    console.log(gameState)
+    score1.textContent = "Home Score: " + gameState.homeScore
+    score2.textContent = "Away Score: " + gameState.awayScore
+    ball1.textContent = "Balls: " + gameState.balls
+    strike1.textContent = "Strikes: " + gameState.strikes
+    outs.textContent = "Outs: " + gameState.outs
+    if(isUp.homeTeam === true) {
+        inning.textContent = "Inning: " + gameState.inning + "▼"
+    } else {
+        inning.textContent = "Inning: " + gameState.inning + "▲"
+    }
+    if(message) {
+        messageEl.textContent = "It's a " + message
+    } else {
+        messageEl.textContent = "You gonna play or what?"
+    }
+    if(message2 === true) {
+        messageEl2.textContent = message2
+    } else {
+        messageEl2.textContent = "Swing the bat!!"
+    }
+    if(isUp.homeTeam === false) {
+        buttonHome.disabled = true
+        buttonHome.style.backgroundColor = "grey"
+    } else {
+        buttonHome.disabled = false
+        buttonHome.style.backgroundColor = "green"
+    }
+    if(isUp.awayTeam === false) {
+        buttonAway.disabled = true
+        buttonAway.style.backgroundColor = "grey"
+    } else {
+        buttonAway.disabled = false
+        buttonAway.style.backgroundColor = "green"
+    }
+    if(bases[1] === true) {
+        baseColor1.style.backgroundColor = "red";
+    }  else {
+        baseColor1.style.backgroundColor = "white";
+    }
+    if(bases[2] === true) {
+        baseColor2.style.backgroundColor = "red";
+    } else {
+        baseColor2.style.backgroundColor = "white";
+    }
+    if(bases[3] === true) {
+        baseColor3.style.backgroundColor = "red";
+    } else {
+        baseColor3.style.backgroundColor = "white";
+    }
+   return baseRunner(swing())
 }
+
+playGame()
