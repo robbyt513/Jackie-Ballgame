@@ -69,11 +69,43 @@ class Game {
             this.awayBat = false
         }
     }
+
+    weightedRandom(items, weights) {
+        if (items.length !== weights.length) {
+          throw new Error('Items and weights must be of the same size');
+        }
+      
+        if (!items.length) {
+          throw new Error('Items must not be empty');
+        }
+
+        const cumulativeWeights = [];
+        for (let i = 0; i < weights.length; i += 1) {
+          cumulativeWeights[i] = weights[i] + (cumulativeWeights[i - 1] || 0);
+        }
+
+        const maxCumulativeWeight = cumulativeWeights[cumulativeWeights.length - 1];
+        const randomNumber = maxCumulativeWeight * Math.random();
+
+        for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
+          if (cumulativeWeights[itemIndex] >= randomNumber) {
+            return {
+              outcome: Object.keys(this.pitch)[itemIndex],
+              bases: Object.values(this.pitch)[itemIndex],
+            }
+          }
+        }
+      }
+
+    
+    getWeightedOutcome() {
+       return this.weightedRandom(Object.keys(this.pitch), [20,20,10,10,3,2,1,2]) 
+    }
     
     swing() {
-        this.keys = Object.keys(this.pitch)
-        this.result = this.keys[Math.floor(Math.random() * this.keys.length)]
-        this.numBases = this.pitch[this.result]
+        this.result = Object.values(this.getWeightedOutcome())
+        this.outcome = this.result[0]
+        this.numBases = this.result[1]
         return this.numBases
     }
     
@@ -113,7 +145,7 @@ class Game {
     }
 
     renderHitResults() {
-        let outcome = this.result
+        let outcome = this.outcome
         let swingResultMessage1;
         let swingResultMessage2;
         if (outcome === "Ball") {
@@ -123,6 +155,7 @@ class Game {
                 if(this.balls === 4) {
                     this.swingResultMessage2 = "Take Your Base!"
                     this.newAtBat()
+                    this.baseRunner(1)
                 }
             } else if (outcome === "Strike") {
                 this.swingResultMessage1 = "Strike"
@@ -146,7 +179,7 @@ class Game {
                 this.swingResultMessage2 = "Nice Hit 😃"
                 this.newAtBat()
             } else if (outcome === "Homerun") {
-                this.swingResultMessage1 = "Home run"
+                this.swingResultMessage1 = "Home run!!!!"
                 this.swingResultMessage2 = "Nice Hit 😃"
                 this.newAtBat()
             } else if (outcome === "Groundout") {
