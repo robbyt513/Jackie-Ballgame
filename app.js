@@ -1,22 +1,18 @@
 
-
-//jackie game
-
-let messageEl = document.getElementById("message-el")
-let messageEl2 = document.getElementById("message-el2")
-let score1 = document.getElementById("home-score")
-let score2 = document.getElementById("away-score")
+let hitOutcomeMessage1 = document.getElementById("message-el")
+let hitOutcomeMessage2 = document.getElementById("message-el2")
+let homeScore1 = document.getElementById("home-score")
+let awayScore2 = document.getElementById("away-score")
 let ball1 = document.getElementById("balls")
 let strike1 = document.getElementById("strikes")
 let outs = document.getElementById("outs")
 let inning = document.getElementById("inning")
-let message = ""
-let message2 = ""
 let baseColor1 = document.getElementById("first-base")
 let baseColor2 = document.getElementById("second-base")
 let baseColor3 = document.getElementById("third-base")
-const buttonHome = document.getElementById("button-home")
-const buttonAway = document.getElementById("button-away")
+let buttonHome = document.querySelector(".button-home")
+let buttonAway = document.querySelector(".button-away")
+
 
 class Game {
     constructor(homeTeamName, awayTeamName) {
@@ -33,14 +29,14 @@ class Game {
     }
 
     pitch = {
-        ball: 0,
-        strike: 0,
-        flyout: 0,
-        groundout: 0,
-        single: 1,
-        double: 2,
-        triple: 3,
-        homerun: 4
+        Ball: 0,
+        Strike: 0,
+        Flyout: 0,
+        Groundout: 0,
+        Single: 1,
+        Double: 2,
+        Triple: 3,
+        Homerun: 4
       }
 
     bases = {
@@ -75,62 +71,10 @@ class Game {
     }
     
     swing() {
-        let keys = Object.keys(this.pitch)
-        let prop = keys[Math.floor(Math.random() * keys.length)]
-        if (prop === "ball") {
-            message = "ball"
-            this.balls++
-            this.totalBases = 0
-                if(this.balls === 4) {
-                    message2 = "walk"
-                    this.newAtBat()
-                    this.totalBases = 1
-                }
-            } else if (prop === "strike") {
-                message = "strike"
-                this.strikes++
-                this.totalBases = 0
-                if(this.strikes === 3) {
-                    message2 = "strike out"
-                    this.outs++
-                    this.newAtBat()
-                    this.totalBases = 0
-                }
-            } else if (prop === "single") {
-                message = "single"
-                this.newAtBat()
-                this.totalBases = 1
-            } else if (prop === "double") {
-                message = "double"
-                this.newAtBat()
-                this.totalBases = 2
-            } else if (prop === "triple") {
-                message = "triple"
-                this.newAtBat()
-                this.totalBases = 3
-            } else if (prop === "homerun") {
-                message = "home run"
-                this.newAtBat()
-                this.totalBases = 4
-            } else if (prop === "groundout") {
-                message = "groudout"
-                this.outs++
-                this.newAtBat()
-                this.totalBases = 0
-            }  else if (prop === "flyout") {
-                message = "flyout"
-                this.outs++
-                this.newAtBat()
-                this.totalBases = 0
-            }
-        if(this.outs === 3) {
-            message2 = "switch sides!"
-            this.totalBases = 0
-            this.inningOver()
-            this.clearBases()
-        }
-        console.log(this.totalBases)
-        return this.totalBases
+        this.keys = Object.keys(this.pitch)
+        this.result = this.keys[Math.floor(Math.random() * this.keys.length)]
+        this.numBases = this.pitch[this.result]
+        return this.numBases
     }
     
     baseRunner(value) {
@@ -165,43 +109,105 @@ class Game {
       }
     
     playGame() {
-        score1.textContent = "Home Score: " + this.homeScore
-        score2.textContent = "Away Score: " + this.awayScore
+       return this.baseRunner(this.swing())
+    }
+
+    renderHitResults() {
+        let outcome = this.result
+        let swingResultMessage1;
+        let swingResultMessage2;
+        if (outcome === "Ball") {
+            this.swingResultMessage1 = "Ball"
+            this.swingResultMessage2 = "Good Eye 👀"
+            this.balls++
+                if(this.balls === 4) {
+                    this.swingResultMessage2 = "Take Your Base!"
+                    this.newAtBat()
+                }
+            } else if (outcome === "Strike") {
+                this.swingResultMessage1 = "Strike"
+                this.swingResultMessage2 = "Swing The Bat!"
+                this.strikes++
+                if(this.strikes === 3) {
+                    this.swingResultMessage2 = "Strike Out! 😂🤣"
+                    this.outs++
+                    this.newAtBat()
+                }
+            } else if (outcome === "Single") {
+                this.swingResultMessage1 = "Single"
+                this.swingResultMessage2 = "Nice Hit 😃"
+                this.newAtBat()
+            } else if (outcome === "Double") {
+                this.swingResultMessage1 = "Double"
+                this.swingResultMessage2 = "Nice Hit 😃"
+                this.newAtBat()
+            } else if (outcome === "Triple") {
+                this.swingResultMessage1 = "Triple"
+                this.swingResultMessage2 = "Nice Hit 😃"
+                this.newAtBat()
+            } else if (outcome === "Homerun") {
+                this.swingResultMessage1 = "Home run"
+                this.swingResultMessage2 = "Nice Hit 😃"
+                this.newAtBat()
+            } else if (outcome === "Groundout") {
+                this.swingResultMessage1 = "Groudout"
+                this.swingResultMessage2 = "You're Out 😡"
+                this.outs++
+                this.newAtBat()
+            }  else if (outcome === "Flyout") {
+                this.swingResultMessage1 = "Flyout"
+                this.swingResultMessage2 = "You're Out 😡"
+                this.outs++
+                this.newAtBat()
+            }
+        if(this.outs === 3) {
+            swingResultMessage2 = "Switch Sides! 🔁"
+            this.inningOver()
+            this.clearBases()
+        }
+}
+
+    renderGameState() {
         ball1.textContent = "Balls: " + this.balls
         strike1.textContent = "Strikes: " + this.strikes
         outs.textContent = "Outs: " + this.outs
-        //Top & Bottom of inning logic
+        homeScore1.textContent = this.homeTeam + ": " + this.homeScore
+        awayScore2.textContent = this.awayTeam + ": " + this.awayScore
+        buttonHome.textContent = this.homeTeam + " " + "Bat"
+        buttonAway.textContent = this.awayTeam + " " + "Bat"
+        //Swing result message
+        if(this.swingResultMessage1) {
+            hitOutcomeMessage1.textContent = "It's a " + this.swingResultMessage1
+            hitOutcomeMessage1.style.color = "black"
+        } else {
+            hitOutcomeMessage1.textContent = "You gonna play or what?"
+        }
+        if(this.swingResultMessage2) {
+            hitOutcomeMessage2.textContent = this.swingResultMessage2
+        } else {
+            hitOutcomeMessage2.textContent = "Swing the bat!"
+        }
+        //Change top & Bottom of inning logic
         if(this.homeBat === true) {
             inning.textContent = "Inning: " + this.inning + "▼"
         } else {
             inning.textContent = "Inning: " + this.inning + "▲"
         }
-        //Swing result message
-        if(message) {
-            messageEl.textContent = "It's a " + message
-            messageEl.style.color = "black"
-        } else {
-            messageEl.textContent = "You gonna play or what?"
-        }
-        if(message2 === true) {
-            messageEl2.textContent = message2
-        } else {
-            messageEl2.textContent = "Swing the bat!!"
-        }
-        //Button colors logic
+        //Buttons on/off logic
         if(this.homeBat === false) {
             buttonHome.disabled = true
-            buttonHome.style.backgroundColor = "grey"
+            buttonAway.disabled = false
         } else {
             buttonHome.disabled = false
-            buttonHome.style.backgroundColor = "green"
-        }
-        if(this.awayBat === false) {
             buttonAway.disabled = true
-            buttonAway.style.backgroundColor = "grey"
+        }
+        //Button changes color when off
+        if(this.homeBat === false) {
+            buttonHome.style.backgroundColor = "grey"
+            buttonAway.style.backgroundColor = "#13aa52"
         } else {
-            buttonAway.disabled = false
-            buttonAway.style.backgroundColor = "green"
+            buttonHome.style.backgroundColor = "#13aa52"
+            buttonAway.style.backgroundColor = "grey"
         }
         //Bases turn red if "true"
         if(this.bases[1] === true) {
@@ -220,19 +226,29 @@ class Game {
             baseColor3.style.backgroundColor = "white";
         }
         //Game over logic
-        if(this.inning > 9 && this.homeScore > this.awayScore) {
-            this.awayBat = false
-            this.homeBat = false
-            messageEl.textContent = "Home Team Wins!!"
-        } else if(this.inning > 9 && this.homeScore < this.awayScore) {
-            this.awayBat = false
-            this.homeBat = false
-            messageEl.textContent = "Away Team Wins!!"
+        if(this.inning > 9 && this.homeScore < this.awayScore) {
+            buttonHome.disabled = true
+            buttonAway.disabled = true
+            hitOutcomeMessage1.textContent = "Away Team Wins!!"
         }
-       return this.baseRunner(this.swing())
+        if(this.inning >= 9 && this.homeScore > this.awayScore && this.homeBat === true) {
+            buttonAway.disabled = true
+            buttonHome.disabled = true
+            hitOutcomeMessage1.textContent = "Home Team Wins!!"
+        }
     }
 }
 
-let newGame = new Game("Bob's Team", "Rob's Team")
-newGame.playGame()
+let newGame = new Game(window.prompt("Enter home team name!", "Home Team"), window.prompt("Enter away team name!", "Away Team"))
+
+newGame.renderHitResults()
+newGame.renderGameState()
+
+function runGame() {
+    newGame.playGame()
+    newGame.renderHitResults()
+    newGame.renderGameState()
+}
+
+
 

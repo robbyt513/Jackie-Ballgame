@@ -32,35 +32,61 @@ body {
 
 * {
     box-sizing: border-box;
+    left: 1%;
   }
 
-#container {
-    margin-top: 30px;
-}
-
-#container button {
-    background: green;
-    border: none;
-    padding: 10px 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-button {
-    color: black;
-    height: 40px;
-    width: 150px;
-    background: goldenrod;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 100px;
-    top: 100px;
-    position: relative;
-    font-weight: bold;
-    border: 2px black;
-    text-align: bottom;
+.button-home {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
     border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+    
+.button-home:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+.button-away {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+      
+.button-away:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
 }
 
 #message-el {
@@ -73,7 +99,6 @@ button {
     font-style: initial;
     right: 100px;
 }
-
 
 #field{ 
     position:absolute;
@@ -105,10 +130,10 @@ button {
     left: 155px;
     height:670px;
     width:670px;
-    border-left:2px solid white;
-    border-bottom:2px solid white;
+    border-left:3px solid white;
+    border-bottom:3px solid white;
     -webkit-transform: rotate(-45deg);
-    z-index: -8;
+    z-index: -2;
 }
 #in-field-grass{
     position:absolute;
@@ -154,6 +179,7 @@ button {
     left:485px;
     border:1px solid white;
     background-color:white;
+    z-index: 1;
 }
 #home-plate:before, #home-plate:after{
 	top: 100%;
@@ -163,6 +189,7 @@ button {
 	width: 0;
 	position: absolute;
 	pointer-events: none;
+    z-index: 1;
 }
 #home-plate:before{
     border-color: rgba(194, 225, 245, 0);
@@ -170,6 +197,7 @@ button {
 	border-width: 6.5px;
 	left: 50%;
 	margin-left: -6.5px;
+    z-index: 1;
 }
 #pitchers-mound{ 
     position:absolute;
@@ -286,4 +314,14 @@ background-image: linear-gradient(0deg, rgba(255, 255, 255, .2) 25%, transparent
   position:absolute;
   bottom:10px;
   right:10px;
+}
+
+input {
+    width: 30%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #5f9341;
+    margin-bottom: 4px;
+    position: relative;
+    right: 2px;
 }
