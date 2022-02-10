@@ -222,7 +222,7 @@ class Game {
         //Swing result message
         if(this.swingResultMessage1) {
             hitOutcomeMessage1.textContent = "It's a " + this.swingResultMessage1
-            hitOutcomeMessage1.style.color = "red"
+            hitOutcomeMessage1.style.color = "white"
         } else {
             hitOutcomeMessage1.textContent = "You gonna play or what?"
         }
