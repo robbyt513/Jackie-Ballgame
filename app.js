@@ -12,6 +12,8 @@ let baseColor2 = document.getElementById("second-base")
 let baseColor3 = document.getElementById("third-base")
 let buttonHome = document.querySelector(".button-home")
 let buttonAway = document.querySelector(".button-away")
+let buttonHome2 = document.querySelector(".button-home2")
+let buttonAway2 = document.querySelector(".button-away2")
 
 
 class Game {
@@ -70,15 +72,8 @@ class Game {
         }
     }
 
+    //Weighted the outcomes of Pitch object
     weightedRandom(items, weights) {
-        if (items.length !== weights.length) {
-          throw new Error('Items and weights must be of the same size');
-        }
-      
-        if (!items.length) {
-          throw new Error('Items must not be empty');
-        }
-
         const cumulativeWeights = [];
         for (let i = 0; i < weights.length; i += 1) {
           cumulativeWeights[i] = weights[i] + (cumulativeWeights[i - 1] || 0);
@@ -97,13 +92,23 @@ class Game {
         }
       }
 
-    
     getWeightedOutcome() {
-       return this.weightedRandom(Object.keys(this.pitch), [20,20,10,10,3,2,1,2]) 
+       return this.weightedRandom(Object.keys(this.pitch), [20,20,10,10,4,2,1,2]) 
+    }
+
+    getWeightedOutcomePowerSwing(){
+        return this.weightedRandom(Object.keys(this.pitch), [20,30,20,20,2,2,1,4])       
     }
     
     swing() {
         this.result = Object.values(this.getWeightedOutcome())
+        this.outcome = this.result[0]
+        this.numBases = this.result[1]
+        return this.numBases
+    }
+
+    powerSwing() {
+        this.result = Object.values(this.getWeightedOutcomePowerSwing())
         this.outcome = this.result[0]
         this.numBases = this.result[1]
         return this.numBases
@@ -143,6 +148,10 @@ class Game {
     playGame() {
        return this.baseRunner(this.swing())
     }
+
+    playGamePowerSwing() {
+        return this.baseRunner(this.powerSwing())
+     }
 
     renderHitResults() {
         let outcome = this.outcome
@@ -208,6 +217,8 @@ class Game {
         awayScore2.textContent = this.awayTeam + ": " + this.awayScore
         buttonHome.textContent = this.homeTeam + " " + "Bat"
         buttonAway.textContent = this.awayTeam + " " + "Bat"
+        buttonHome2.textContent = this.homeTeam + " " + "Power Bat"
+        buttonAway2.textContent = this.awayTeam + " " + "Power Bat"
         //Swing result message
         if(this.swingResultMessage1) {
             hitOutcomeMessage1.textContent = "It's a " + this.swingResultMessage1
@@ -230,17 +241,25 @@ class Game {
         if(this.homeBat === false) {
             buttonHome.disabled = true
             buttonAway.disabled = false
+            buttonHome2.disabled = true
+            buttonAway2.disabled = false
         } else {
             buttonHome.disabled = false
             buttonAway.disabled = true
+            buttonHome2.disabled = false
+            buttonAway2.disabled = true
         }
         //Button changes color when off
         if(this.homeBat === false) {
             buttonHome.style.backgroundColor = "grey"
             buttonAway.style.backgroundColor = "#13aa52"
+            buttonHome2.style.backgroundColor = "grey"
+            buttonAway2.style.backgroundColor = "#13aa52"
         } else {
             buttonHome.style.backgroundColor = "#13aa52"
             buttonAway.style.backgroundColor = "grey"
+            buttonHome2.style.backgroundColor = "#13aa52"
+            buttonAway2.style.backgroundColor = "grey"
         }
         //Bases turn red if "true"
         if(this.bases[1] === true) {
@@ -262,11 +281,15 @@ class Game {
         if(this.inning > 9 && this.homeScore < this.awayScore) {
             buttonHome.disabled = true
             buttonAway.disabled = true
+            buttonHome2.disabled = true
+            buttonAway2.disabled = true
             hitOutcomeMessage1.textContent = "Away Team Wins!!"
         }
         if(this.inning >= 9 && this.homeScore > this.awayScore && this.homeBat === true) {
             buttonAway.disabled = true
             buttonHome.disabled = true
+            buttonAway2.disabled = true
+            buttonHome2.disabled = true
             hitOutcomeMessage1.textContent = "Home Team Wins!!"
         }
     }
@@ -283,5 +306,10 @@ function runGame() {
     newGame.renderGameState()
 }
 
+function runGamePowerSwing() {
+    newGame.playGamePowerSwing()
+    newGame.renderHitResults()
+    newGame.renderGameState()
+}
 
 
