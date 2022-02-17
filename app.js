@@ -3,6 +3,12 @@ let hitOutcomeMessage1 = document.getElementById("message-el")
 let hitOutcomeMessage2 = document.getElementById("message-el2")
 let homeScore1 = document.getElementById("home-score")
 let awayScore2 = document.getElementById("away-score")
+let homeTeamName = document.getElementById("home-team")
+let awayTeamName = document.getElementById("away-team")
+let homeTeamBat = document.getElementById("homeTeamBat")
+let awayTeamBat = document.getElementById("awayTeamBat")
+let homeTeamPowerBat = document.getElementById("homeTeamPowerBat")
+let awayTeamPowerBat = document.getElementById("awayTeamPowerBat")
 let ball1 = document.getElementById("balls")
 let strike1 = document.getElementById("strikes")
 let outs = document.getElementById("outs")
@@ -10,10 +16,10 @@ let inning = document.getElementById("inning")
 let baseColor1 = document.getElementById("first-base")
 let baseColor2 = document.getElementById("second-base")
 let baseColor3 = document.getElementById("third-base")
-let buttonHome = document.querySelector(".button-home")
-let buttonAway = document.querySelector(".button-away")
-let buttonHome2 = document.querySelector(".button-home2")
-let buttonAway2 = document.querySelector(".button-away2")
+let buttonHome = document.getElementById("baseballBatHome")
+let buttonAway = document.getElementById("baseballBatAway")
+let buttonHome2 = document.getElementById("baseballBatHome2")
+let buttonAway2 = document.getElementById("baseballBatAway2")
 
 
 class Game {
@@ -70,6 +76,7 @@ class Game {
             this.homeBat = true
             this.awayBat = false
         }
+        
     }
 
     //Weighted the outcomes of Pitch object
@@ -93,11 +100,11 @@ class Game {
       }
 
     getWeightedOutcome() {
-       return this.weightedRandom(Object.keys(this.pitch), [20,20,10,10,4,2,1,2]) 
+       return this.weightedRandom(Object.keys(this.pitch), [20,20,10,10,6,4,2,3]) 
     }
 
     getWeightedOutcomePowerSwing(){
-        return this.weightedRandom(Object.keys(this.pitch), [20,30,20,20,2,2,1,4])       
+        return this.weightedRandom(Object.keys(this.pitch), [15,30,20,20,4,3,2,5])       
     }
     
     swing() {
@@ -213,19 +220,23 @@ class Game {
         ball1.textContent = "Balls: " + this.balls
         strike1.textContent = "Strikes: " + this.strikes
         outs.textContent = "Outs: " + this.outs
-        homeScore1.textContent = this.homeTeam + ": " + this.homeScore
-        awayScore2.textContent = this.awayTeam + ": " + this.awayScore
-        buttonHome.textContent = this.homeTeam + " " + "Bat"
-        buttonAway.textContent = this.awayTeam + " " + "Bat"
-        buttonHome2.textContent = this.homeTeam + " " + "Power Bat"
-        buttonAway2.textContent = this.awayTeam + " " + "Power Bat"
+        homeScore1.textContent = this.homeScore
+        awayScore2.textContent = this.awayScore
+        homeTeamName.textContent = this.homeTeam
+        awayTeamName.textContent = this.awayTeam
+        homeTeamBat.textContent = this.homeTeam + " " + "Bat"
+        awayTeamBat.textContent = this.awayTeam + " " + "Bat"
+        homeTeamPowerBat.textContent = this.homeTeam + " " + "Power Bat"
+        awayTeamPowerBat.textContent = this.awayTeam + " " + "Power Bat"
+        // buttonHome.textContent = this.homeTeam + " " + "Bat"
+        // buttonAway.textContent = this.awayTeam + " " + "Bat"
+        // buttonHome2.textContent = this.homeTeam + " " + "Power Bat"
+        // buttonAway2.textContent = this.awayTeam + " " + "Power Bat"
         //Swing result message
         if(this.swingResultMessage1) {
             hitOutcomeMessage1.textContent = "It's a " + this.swingResultMessage1
             hitOutcomeMessage1.style.color = "white"
-        } else {
-            hitOutcomeMessage1.textContent = "You gonna play or what?"
-        }
+        } 
         if(this.swingResultMessage2) {
             hitOutcomeMessage2.textContent = this.swingResultMessage2
         } else {
@@ -249,16 +260,16 @@ class Game {
             buttonHome2.disabled = false
             buttonAway2.disabled = true
         }
-        //Button changes color when off
+        // Button changes color when off
         if(this.homeBat === false) {
             buttonHome.style.backgroundColor = "grey"
             buttonAway.style.backgroundColor = "#13aa52"
             buttonHome2.style.backgroundColor = "grey"
-            buttonAway2.style.backgroundColor = "#13aa52"
+            buttonAway2.style.backgroundColor = "red"
         } else {
             buttonHome.style.backgroundColor = "#13aa52"
             buttonAway.style.backgroundColor = "grey"
-            buttonHome2.style.backgroundColor = "#13aa52"
+            buttonHome2.style.backgroundColor = "red"
             buttonAway2.style.backgroundColor = "grey"
         }
         //Bases turn red if "true"
