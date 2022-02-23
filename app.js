@@ -32,8 +32,49 @@ class Game {
         this.outs = 0
         this.balls = 0
         this.strikes = 0
+        this.homeHits= 0
+        this.awayHits = 0
         this.awayBat = true
         this.homeBat = false
+    }
+
+    currentInning = {
+        1: {
+            "away": 0,
+            "home": 0
+        },
+        2: {
+            "away": 0,
+            "home": 0
+        },
+        3: {
+            "away": 0,
+            "home": 0
+        },
+        4: {
+            "away": 0,
+            "home": 0
+        },
+        5: {
+            "away": 0,
+            "home": 0
+        },
+        6: {
+            "away": 0,
+            "home": 0
+        },
+        7: {
+            "away": 0,
+            "home": 0
+        },
+        8: {
+            "away": 0,
+            "home": 0
+        },
+        9: {
+            "away": 0,
+            "home": 0
+        },
     }
 
     pitch = {
@@ -228,10 +269,6 @@ class Game {
         awayTeamBat.textContent = this.awayTeam + " " + "Bat"
         homeTeamPowerBat.textContent = this.homeTeam + " " + "Power Bat"
         awayTeamPowerBat.textContent = this.awayTeam + " " + "Power Bat"
-        // buttonHome.textContent = this.homeTeam + " " + "Bat"
-        // buttonAway.textContent = this.awayTeam + " " + "Bat"
-        // buttonHome2.textContent = this.homeTeam + " " + "Power Bat"
-        // buttonAway2.textContent = this.awayTeam + " " + "Power Bat"
         //Swing result message
         if(this.swingResultMessage1) {
             hitOutcomeMessage1.textContent = "It's a " + this.swingResultMessage1
@@ -323,4 +360,8 @@ function runGamePowerSwing() {
     newGame.renderGameState()
 }
 
-
+function playVsCPU() {
+    while (newGame.awayBat) {
+        runGame() 
+    }
+}
