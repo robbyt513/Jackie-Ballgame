@@ -145,7 +145,7 @@ class Game {
     }
 
     getWeightedOutcomePowerSwing(){
-        return this.weightedRandom(Object.keys(this.pitch), [15,30,20,20,4,3,2,5])       
+        return this.weightedRandom(Object.keys(this.pitch), [15,30,20,20,4,3,2,9])       
     }
     
     swing() {
