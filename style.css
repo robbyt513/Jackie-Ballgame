@@ -31,30 +31,6 @@ body {
     box-sizing: border-box;
     left: 1%;
   }
-
-/* .button-home {
-    background-color: #13aa52;
-    border: 0px solid #13aa52;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    outline: none;
-    outline: 0;
-    padding: 10px 25px;
-    text-align: center;
-    transform: translateY(0);
-    transition: transform 150ms, box-shadow 150ms;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    display: block;
-    margin-top: 3px;
-} */
     
 .button-home:hover {
     box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
@@ -307,7 +283,6 @@ body {
     left:642px;
     border-radius:100% 1% 1% 1%;
     z-index: -2;
-
 }
 #second-circle{
     top:275px;
@@ -495,15 +470,15 @@ body {
     padding-right: 32px;
   }
 
-  #baseballBatHome {
+#baseballBatHome {
     font-size: 30px;
     color: rgb(197, 174, 61);
     background-color: rgb(192, 211, 192);
   }
 
-  #baseballBatHome:hover {
-    box-shadow: rgba(247, 7, 7, 0) 0 3px 9px 0;
-    transform: translateY(-4px);
+#baseballBatHome:hover {
+  box-shadow: rgba(247, 7, 7, 0) 0 3px 9px 0;
+  transform: translateY(-4px);
 }
 
 #baseballBatHome2 {
@@ -537,4 +512,20 @@ body {
 #baseballBatAway2:hover {
   box-shadow: rgba(241, 4, 4, 0) 0 3px 9px 0;
   transform: translateY(-4px);
+}
+
+p {
+  font-family: fantasy;
+  font-size: 13px;
+  font-weight: bold;
+  border:rgb(197, 174, 61);
+}
+
+#playVsCPU {
+  position: fixed;
+  height: 10%;
+  width: 50px;
+  white-space: normal;
+  font-family: sans-serif;
+  font-size: 13px;
 }
