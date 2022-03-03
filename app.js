@@ -20,6 +20,7 @@ let buttonHome = document.getElementById("baseballBatHome")
 let buttonAway = document.getElementById("baseballBatAway")
 let buttonHome2 = document.getElementById("baseballBatHome2")
 let buttonAway2 = document.getElementById("baseballBatAway2")
+let CPU = document.getElementById("playVSCPU")
 
 
 class Game {
@@ -29,6 +30,8 @@ class Game {
         this.inning = 1
         this.homeScore = 0
         this.awayScore = 0
+        this.homeScorePerInning = 0
+        this.awayScorePerInning = 0
         this.outs = 0
         this.balls = 0
         this.strikes = 0
@@ -38,7 +41,7 @@ class Game {
         this.homeBat = false
     }
 
-    currentInning = {
+    currentInningScore = {
         1: {
             "away": 0,
             "home": 0
@@ -77,6 +80,7 @@ class Game {
         },
     }
 
+
     pitch = {
         Ball: 0,
         Strike: 0,
@@ -94,6 +98,15 @@ class Game {
         3: false
     }
 
+    inningScore(score1, score2) {
+        for(let i = 0; i < this.currentInningScore.length; i++) {
+            if(this.currentInningScore[i] === this.inning) {
+                Object.keys(this.currentInningScore)[away] = score1
+                this.currentInningScore[i][home] = score2
+            }
+        }
+    }
+
     clearBases() {
         this.bases[1] = false
         this.bases[2] = false
@@ -106,9 +119,12 @@ class Game {
     }
     
     inningOver() {
+        this.inningScore(this.awayScorePerInning, this.homeScorePerInning)
         this.balls = 0
         this.strikes = 0
         this.outs = 0
+        this.awayScorePerInning = 0
+        this.homeScorePerInning = 0
         if(this.homeBat === true) {
             this.homeBat = false
             this.awayBat = true
@@ -172,8 +188,10 @@ class Game {
                   if(this.newBase > 3) {
                       if(this.homeBat === true) {
                           this.homeScore++
+                          this.homeScorePerInning++
                       } else {
                           this.awayScore++
+                          this.awayScorePerInning++
                       }
                   } else {
                       this.bases[this.newBase] = true
@@ -186,8 +204,10 @@ class Game {
               } else {
                   if(this.homeBat === true) {
                       this.homeScore++
+                      this.homeScorePerInning++
                   } else {
                       this.awayScore++
+                      this.awayScorePerInning++
                   }
               }
         return value
@@ -340,6 +360,10 @@ class Game {
             buttonHome2.disabled = true
             hitOutcomeMessage1.textContent = "Home Team Wins!!"
         }
+        if(playVsCPU()) {
+                buttonAway2.disabled = true
+                buttonAway.disabled = true
+        }
     }
 }
 
@@ -352,16 +376,11 @@ function runGame() {
     newGame.playGame()
     newGame.renderHitResults()
     newGame.renderGameState()
+    console.log(newGame.currentInningScore)
 }
 
 function runGamePowerSwing() {
     newGame.playGamePowerSwing()
     newGame.renderHitResults()
     newGame.renderGameState()
-}
-
-function playVsCPU() {
-    while (newGame.awayBat) {
-        runGame() 
-    }
 }
