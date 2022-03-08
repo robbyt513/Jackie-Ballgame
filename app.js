@@ -163,13 +163,6 @@ class Game {
             }
         }
 
-    renderGame() {
-        for(let i = 0; i < this.scoreByInning.length; i++) {
-                inningScore.textContent = this.scoreByInning[i]["away"]
-                inningScore.textContent = this.scoreByInning[i]["home"]
-            }
-        }
-
     clearBases() {
         this.bases[1] = false
         this.bases[2] = false
@@ -339,8 +332,6 @@ class Game {
 }
 
     renderGameState() {
-        // let score2 = this.inning - 1
-        // newScoreByInning.textContent = Object.values(this.scoreByInning)[score2]["away"]
         ball1.textContent = "Balls: " + this.balls
         strike1.textContent = "Strikes: " + this.strikes
         outs.textContent = "Outs: " + this.outs
@@ -423,10 +414,6 @@ class Game {
             buttonHome2.disabled = true
             hitOutcomeMessage1.textContent = "Home Team Wins!!"
         }
-        if(playVsCPU()) {
-                buttonAway2.disabled = true
-                buttonAway.disabled = true
-        }
     }
 }
 
@@ -450,6 +437,11 @@ function runGamePowerSwing() {
 
 function playVsCPU() {
     while (newGame.awayBat) {
-        runGame()
+        setInterval(runGame(), 5000)
     }
 }
+
+// let timedCPU = setInterval(playVsCPU(), 2000)
+// let computerGame = "Play vs CPU?"
+// let humanGame = "Play vs Human?"
+// window.prompt(computerGame, humanGame)
