@@ -21,6 +21,25 @@ let buttonAway = document.getElementById("baseballBatAway")
 let buttonHome2 = document.getElementById("baseballBatHome2")
 let buttonAway2 = document.getElementById("baseballBatAway2")
 let CPU = document.getElementById("playVSCPU")
+let newScoreByInningAway1 = document.getElementById("new-score-by-inning-away1")
+let newScoreByInningAway2 = document.getElementById("new-score-by-inning-away2")
+let newScoreByInningAway3 = document.getElementById("new-score-by-inning-away3")
+let newScoreByInningAway4 = document.getElementById("new-score-by-inning-away4")
+let newScoreByInningAway5 = document.getElementById("new-score-by-inning-away5")
+let newScoreByInningAway6 = document.getElementById("new-score-by-inning-away6")
+let newScoreByInningAway7 = document.getElementById("new-score-by-inning-away7")
+let newScoreByInningAway8 = document.getElementById("new-score-by-inning-away8")
+let newScoreByInningAway9 = document.getElementById("new-score-by-inning-away9")
+let newScoreByInningHome1 = document.getElementById("new-score-by-inning-home1")
+let newScoreByInningHome2 = document.getElementById("new-score-by-inning-home2")
+let newScoreByInningHome3 = document.getElementById("new-score-by-inning-home3")
+let newScoreByInningHome4 = document.getElementById("new-score-by-inning-home4")
+let newScoreByInningHome5 = document.getElementById("new-score-by-inning-home5")
+let newScoreByInningHome6 = document.getElementById("new-score-by-inning-home6")
+let newScoreByInningHome7 = document.getElementById("new-score-by-inning-home7")
+let newScoreByInningHome8 = document.getElementById("new-score-by-inning-home8")
+let newScoreByInningHome9 = document.getElementById("new-score-by-inning-home9")
+
 
 
 class Game {
@@ -30,8 +49,7 @@ class Game {
         this.inning = 1
         this.homeScore = 0
         this.awayScore = 0
-        this.homeScorePerInning = 0
-        this.awayScorePerInning = 0
+        this.scorePerInning = 0
         this.outs = 0
         this.balls = 0
         this.strikes = 0
@@ -41,7 +59,7 @@ class Game {
         this.homeBat = false
     }
 
-    currentInningScore = {
+    scoreByInning = {
         1: {
             "away": 0,
             "home": 0
@@ -98,14 +116,59 @@ class Game {
         3: false
     }
 
-    inningScore(score1, score2) {
-        for(let i = 0; i < this.currentInningScore.length; i++) {
-            if(this.currentInningScore[i] === this.inning) {
-                Object.keys(this.currentInningScore)[away] = score1
-                this.currentInningScore[i][home] = score2
+    inningScore(score) {
+        let score1 = this.inning - 1
+            if(this.awayBat) {
+                Object.values(this.scoreByInning)[score1]["away"] = score
+                if(score1 === 0) {
+                    return newScoreByInningAway1.textContent = Object.values(this.scoreByInning)[0]["away"]
+                }  else if(score1 === 1) {
+                    return newScoreByInningAway2.textContent = Object.values(this.scoreByInning)[1]["away"]
+                } else if(score1 === 2) {
+                    return newScoreByInningAway3.textContent = Object.values(this.scoreByInning)[2]["away"]
+                } else if(score1 === 3) {
+                    return newScoreByInningAway4.textContent = Object.values(this.scoreByInning)[3]["away"]
+                } else if(score1 === 4) {
+                    return newScoreByInningAway5.textContent = Object.values(this.scoreByInning)[4]["away"]
+                } else if(score1 === 5) {
+                    return newScoreByInningAway6.textContent = Object.values(this.scoreByInning)[5]["away"]
+                } else if(score1 === 6) {
+                    return newScoreByInningAway7.textContent = Object.values(this.scoreByInning)[6]["away"]
+                } else if(score1 === 7) {
+                    return newScoreByInningAway8.textContent = Object.values(this.scoreByInning)[7]["away"]
+                } else {
+                    return newScoreByInningAway9.textContent = Object.values(this.scoreByInning)[8]["away"]
+                }
+            } else {
+                Object.values(this.scoreByInning)[score1]["home"] = score
+                if(score1 === 0) {
+                    return newScoreByInningHome1.textContent = Object.values(this.scoreByInning)[0]["home"]
+                }  else if(score1 === 1) {
+                    return newScoreByInningHome2.textContent = Object.values(this.scoreByInning)[1]["home"]
+                } else if(score1 === 2) {
+                    return newScoreByInningHome3.textContent = Object.values(this.scoreByInning)[2]["home"]
+                } else if(score1 === 3) {
+                    return newScoreByInningHome4.textContent = Object.values(this.scoreByInning)[3]["home"]
+                } else if(score1 === 4) {
+                    return newScoreByInningHome5.textContent = Object.values(this.scoreByInning)[4]["home"]
+                } else if(score1 === 5) {
+                    return newScoreByInningHome6.textContent = Object.values(this.scoreByInning)[5]["home"]
+                } else if(score1 === 6) {
+                    return newScoreByInningHome7.textContent = Object.values(this.scoreByInning)[6]["home"]
+                } else if(score1 === 7) {
+                    return newScoreByInningHome8.textContent = Object.values(this.scoreByInning)[7]["home"]
+                } else {
+                    return newScoreByInningHome9.textContent = Object.values(this.scoreByInning)[8]["home"]
+                }
             }
         }
-    }
+
+    renderGame() {
+        for(let i = 0; i < this.scoreByInning.length; i++) {
+                inningScore.textContent = this.scoreByInning[i]["away"]
+                inningScore.textContent = this.scoreByInning[i]["home"]
+            }
+        }
 
     clearBases() {
         this.bases[1] = false
@@ -119,12 +182,11 @@ class Game {
     }
     
     inningOver() {
-        this.inningScore(this.awayScorePerInning, this.homeScorePerInning)
+        this.inningScore(this.scorePerInning)
         this.balls = 0
         this.strikes = 0
         this.outs = 0
-        this.awayScorePerInning = 0
-        this.homeScorePerInning = 0
+        this.scorePerInning = 0
         if(this.homeBat === true) {
             this.homeBat = false
             this.awayBat = true
@@ -133,7 +195,6 @@ class Game {
             this.homeBat = true
             this.awayBat = false
         }
-        
     }
 
     //Weighted the outcomes of Pitch object
@@ -188,10 +249,10 @@ class Game {
                   if(this.newBase > 3) {
                       if(this.homeBat === true) {
                           this.homeScore++
-                          this.homeScorePerInning++
+                          this.scorePerInning++
                       } else {
                           this.awayScore++
-                          this.awayScorePerInning++
+                          this.scorePerInning++
                       }
                   } else {
                       this.bases[this.newBase] = true
@@ -204,10 +265,10 @@ class Game {
               } else {
                   if(this.homeBat === true) {
                       this.homeScore++
-                      this.homeScorePerInning++
+                      this.scorePerInning++
                   } else {
                       this.awayScore++
-                      this.awayScorePerInning++
+                      this.scorePerInning++
                   }
               }
         return value
@@ -278,6 +339,8 @@ class Game {
 }
 
     renderGameState() {
+        // let score2 = this.inning - 1
+        // newScoreByInning.textContent = Object.values(this.scoreByInning)[score2]["away"]
         ball1.textContent = "Balls: " + this.balls
         strike1.textContent = "Strikes: " + this.strikes
         outs.textContent = "Outs: " + this.outs
@@ -376,11 +439,17 @@ function runGame() {
     newGame.playGame()
     newGame.renderHitResults()
     newGame.renderGameState()
-    console.log(newGame.currentInningScore)
 }
+
 
 function runGamePowerSwing() {
     newGame.playGamePowerSwing()
     newGame.renderHitResults()
     newGame.renderGameState()
+}
+
+function playVsCPU() {
+    while (newGame.awayBat) {
+        runGame()
+    }
 }
