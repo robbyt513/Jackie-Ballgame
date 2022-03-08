@@ -3,28 +3,21 @@ body, html {
   }
 
 body {
-    color: white;
-    font-weight: bold;
-    border: 5px solid #f1f1f1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 201;
-    width: 90%;
-    padding: 20px;
-    z-index: 1;
-}
-
-body {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    text-align: right;
-    z-index: 100;
-    font-size: x-large;
-    font-weight: bold;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
+  color: white;
+  border: 5px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  width: 90%;
+  padding: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: right;
+  font-size: x-large;
+  font-weight: bold;
+  height: 100%;
+  z-index: 1;
 }
 
 * {
@@ -515,8 +508,8 @@ body {
 }
 
 p {
-  font-family: fantasy;
-  font-size: 13px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 14px;
   font-weight: bold;
   border:rgb(197, 174, 61);
 }
