@@ -148,8 +148,8 @@ body {
     height:450px;
     width:450px;
     border-radius:1% 50% 1% 1%;
-    border:1px solid: #836539; /*#9b7653; */
-    background-color: #836539; /*#9b7653;*/
+    border:1px solid: #836539;
+    background-color: #836539;
    -webkit-transform: rotate(-45deg);
 }
 #base-lines{
