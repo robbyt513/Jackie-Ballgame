@@ -440,8 +440,3 @@ function playVsCPU() {
         setInterval(runGame(), 5000)
     }
 }
-
-// let timedCPU = setInterval(playVsCPU(), 2000)
-// let computerGame = "Play vs CPU?"
-// let humanGame = "Play vs Human?"
-// window.prompt(computerGame, humanGame)
